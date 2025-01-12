@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <form class="navbar-form navbar-right form row justify-content-center" method="POST" action="/search">
+        <div class="col-md-2"> 
+            <select id="select_cat" name="select_cat" aria-placeholder="Danh mục" class="form-select form-control" aria-label="Default select example">
+                {% if id_cat_filter ==0 %}
+
+                <option value="0" selected>--Danh mục--</option>
+                {% else %}
+                <option value="0">--Danh mục--</option>
+                {% endif %}
+                {% if category_items is not none %}
+                    {% for item in category_items %}
+                    {% if item.ID == id_cat_filter %}
+                    <option selected value="{{item.ID}}">{{item.TenWebsite}}-{{item.TenDanhMuc}}</option>
+                    {% else %}
+                    <option value="{{item.ID}}">{{item.TenWebsite}}-{{item.TenDanhMuc}}</option>
+                    {% endif %}
+                    {% endfor %}
+                {% endif%} 
+            </select>
+        </div>
+        <div class="col-md-6"><input name="keyword" id="keyword" class="form-control" type="search" placeholder="Nhập từ khóa....."
+                aria-label="Search"></div>
+        <div class="col-md-2"> <button class="btn btn-success" type="submit">Tìm kiếm</button></div>
+    </form>
+</div>
+<br>
+<br>
+
+<div class="row d-flex justify-content-center">
+    {% if keyword is not none %}
+    <h3>Kết quả tìm kiếm cho từ khóa: "{{keyword}}"</h3>
+    {% endif %} 
+    <br>
+    <br>
+    {% if data is not none %}
+    <table class="table table-hover">
+        <tbody>
+            {% for d in data%}
+            <tr>
+                <td>
+                    <img style="width:100px;height:50px;" src="{{d.HinhAnh}}" alt="">
+                </td>
+                <td><a style="text-decoration: none;" href="/paper/{{d.ID}}">{{d.TieuDe}}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+   
+    {% endif %}
+
+</div>
+
+{% endblock %}

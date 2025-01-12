@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+
+{% with messages = get_flashed_messages()%}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{message}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+{% endif%}
+{% endwith %}
+
+<div class="col-lg-12">
+    <div class="row">
+        <form action="/" method="POST">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <div class="col-md-6"> <input type="text" class="form-control" name="url_website" id="url_website"
+                        placeholder="Nhập link website tin tức" required></div>
+                <button type="submit" class="btn btn-primary">Crawl</button>
+            </div>
+        </form>
+    </div>
+    <br>
+    <div class="row">
+        {% if url is not none %}
+        <div class="col-lg-12">
+            <form action="/get_papers" method="POST">
+                <input type="text" hidden value="{{site}}" name="site" id="site">
+                <input type="text" hidden value="{{url_site}}" name="url_site" id="url_site">
+                <div class="form-group">
+                    <div class="row">
+                        {% for cat in categories %}
+                        <div class="col-md-4">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" type="checkbox" id="chk_category"
+                                    name="chk_category" value="{{cat}}">
+                                <label for="customCheckbox1" class="custom-control-label">{{cat}}</label>
+                            </div>
+
+                        </div>
+                        {% endfor %}
+                    </div>
+
+
+                </div>
+                <br>
+                <br>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <div class="col-md-1">
+                        <label for="number_paper">Số bài báo:</label>
+                    </div>
+
+                    <div class="col-md-4">
+                        <input type="number" class="form-control" min="0" max="1000" value="10" id="number_paper"
+                            name="number_paper">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success">Lấy bài báo</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        {% endif %}
+    </div>
+
+
+
+
+</div>
+{% endblock %}
